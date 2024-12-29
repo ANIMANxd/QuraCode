@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuraCode - Advanced QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+            margin: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature-description {
+            color: #94a3b8;
+        }
+
+        .demo {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .demo img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 4rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-section {
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #3b82f6;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .feature-card {
+                margin: 1rem 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>QuraCode</h1>
+                <p class="subtitle">The Next Evolution in QR Code Generation 100% free to use. Simple and efficient.</p>
+                <a href="qrcode.html" class="cta-button">Create Your QuraCode</a>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Custom Colors</h3>
+                    <p class="feature-description">Choose custom colors for both foreground and background to match your brand identity or design preferences.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💫</div>
+                    <h3 class="feature-title">Watermark Support</h3>
+                    <p class="feature-description">Add custom watermark text to your QR codes with adjustable size and color options for branding purposes.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Error Correction</h3>
+                    <p class="feature-description">Select from four levels of error correction to ensure your QR codes remain scannable even if partially damaged.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📏</div>
+                    <h3 class="feature-title">Multiple Sizes</h3>
+                    <p class="feature-description">Generate QR codes in various sizes from 128x128 to 512x512 pixels to suit your needs.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3 class="feature-title">Easy Export</h3>
+                    <p class="feature-description">Download your QR codes as PNG images or copy them directly to your clipboard with one click.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Instant Generation</h3>
+                    <p class="feature-description">Generate QR codes instantly with real-time preview as you make adjustments to your settings.</p>
+                </div>
+            </div>
+
+            <div class="demo">
+                <img src="qr-interface.png" alt="QR Code Generator Interface" />
+            </div>
+            <a href="qrcode.html" class="cta-button">Create Your QuraCode</a>
+
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">    
+            <div class="footer-section">
+                <h3>Contact Me</h3>
+                <p>Email: kryptogrammer101@gmail.com</p>
+                
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow me on social media.</p>
+                <div class="social-links">
+                    <a href="https://github.com/ANIMANxd" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://instagram.com/_aniruddha_bhide" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Developed by @ANIMAnxd</p>
+        </div>
+    </footer>
+</body>
+</html>
