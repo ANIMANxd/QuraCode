@@ -33,7 +33,6 @@ let qr = null;
             const qrContainer = document.getElementById('qrcode');
             qrContainer.innerHTML = '';
 
-            // Generate QR Code
             qr = new QRCode(qrContainer, {
                 text: text,
                 width: size,
@@ -43,7 +42,6 @@ let qr = null;
                 correctLevel: QRCode.CorrectLevel[correctLevel]
             });
 
-            // Add watermark if provided
             const watermark = document.getElementById('watermark').value;
             if (watermark) {
                 setTimeout(() => {
@@ -55,7 +53,6 @@ let qr = null;
                     
                     ctx.drawImage(img, 0, 0);
                     
-                    // Watermark settings
                     const watermarkColor = document.getElementById('watermark-color').value;
                     const watermarkSize = document.getElementById('watermark-size').value;
                     let fontSize;
