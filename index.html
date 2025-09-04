@@ -3,279 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuraCode - Advanced QR Code Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>QuraCode Pro - Free Professional QR Code Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #fff;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
         }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        .hero-glow {
+            box-shadow: 0 0 100px 30px rgba(99, 102, 241, 0.4);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .hero-content {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            transition: transform 0.3s ease;
-            margin: 1rem;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
         .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 1rem;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
-
         .feature-card:hover {
             transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #3b82f6;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .feature-description {
-            color: #94a3b8;
-        }
-
-        .demo {
-            text-align: center;
-            margin: 4rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
-        }
-
-        .demo img {
-            max-width: 100%;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .footer {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 4rem 0;
-            margin-top: 4rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-section {
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #fff;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-section p {
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            color: #fff;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            color: #3b82f6;
-        }
-
-        .copyright {
-            text-align: center;
-            color: #94a3b8;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .feature-card {
-                margin: 1rem 0;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
-<body>
-    <div class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>QuraCode</h1>
-                <p class="subtitle">The Next Evolution in QR Code Generation 100% free to use. Simple and efficient.</p>
-                <a href="qrcode.html" class="cta-button">Create Your QuraCode</a>
-            </div>
+<body class="bg-gray-50 text-gray-800">
 
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">Custom Colors</h3>
-                    <p class="feature-description">Choose custom colors for both foreground and background to match your brand identity or design preferences.</p>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                     <svg class="h-8 w-8 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 013.75 9.375v-4.5zM3.75 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5z" />
+                    </svg>
+                    <span class="text-2xl font-bold text-gray-900">QuraCode Pro</span>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💫</div>
-                    <h3 class="feature-title">Watermark Support</h3>
-                    <p class="feature-description">Add custom watermark text to your QR codes with adjustable size and color options for branding purposes.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3 class="feature-title">Error Correction</h3>
-                    <p class="feature-description">Select from four levels of error correction to ensure your QR codes remain scannable even if partially damaged.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📏</div>
-                    <h3 class="feature-title">Multiple Sizes</h3>
-                    <p class="feature-description">Generate QR codes in various sizes from 128x128 to 512x512 pixels to suit your needs.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3 class="feature-title">Easy Export</h3>
-                    <p class="feature-description">Download your QR codes as PNG images or copy them directly to your clipboard with one click.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">Instant Generation</h3>
-                    <p class="feature-description">Generate QR codes instantly with real-time preview as you make adjustments to your settings.</p>
-                </div>
-            </div>
-
-            <div class="demo">
-                <img src="qr-interface.png" alt="QR Code Generator Interface" />
-            </div>
-            <div class="hero-content">
-                <a href="qrcode.html" class="cta-button">Create Your QuraCode</a>
-            </div>
-
-        </div>
-    </div>
-    <footer class="footer">
-        <div class="footer-content">    
-            <div class="footer-section">
-                <h3>Contact Me</h3>
-                <p>Email: kryptogrammer101@gmail.com</p>
-                
-            </div>
-            
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <p>Follow me on social media.</p>
-                <div class="social-links">
-                    <a href="https://github.com/ANIMANxd" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://instagram.com/_aniruddha_bhide" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
+                <a href="qura-code_pro.html" class="inline-block bg-black text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-gray-800 transition-colors">
+                    Create QR Code
+                </a>
             </div>
         </div>
-        
-        <div class="copyright">
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Developed by @ANIMANxd</p>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="py-20 sm:py-32">
+            <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight">
+                    Create Custom, Professional QR Codes
+                </h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
+                    Powerful, private, and completely free. Design unique QR codes with logos, colors, and custom shapes in seconds. No sign-up required, ever.
+                </p>
+                <div class="mt-10 flex justify-center gap-4 flex-wrap">
+                    <a href="qura-code_pro.html" class="inline-block bg-black text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-gray-800 transition-transform hover:scale-105">
+                        Get Started for Free
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900">All The Features You Need</h2>
+                    <p class="mt-4 text-lg text-gray-600">And it's all completely free.</p>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Feature 1: Custom Styles -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.998 15.998 0 011.622-3.385m5.043.025a2.25 2.25 0 012.4-2.245 4.5 4.5 0 00-8.4 2.245c0 .399.078.78.22 1.128zm0 0a15.998 15.998 0 01-3.388 1.62m5.043-.025a15.998 15.998 0 00-1.622 3.385m1.622-3.385a2.25 2.25 0 00-2.4 2.245 4.5 4.5 0 018.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 00-3.388-1.62m-5.043-.025a15.998 15.998 0 011.622-3.385" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">Advanced Styling</h3>
+                        <p class="mt-2 text-gray-600">Customize everything from colors and gradients to the shape of the dots, corners, and even the QR code itself.</p>
+                    </div>
+
+                    <!-- Feature 2: Logos & Watermarks -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                         <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.588 8.262M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">Logos & Text Watermarks</h3>
+                        <p class="mt-2 text-gray-600">Brand your QR codes by adding your company logo or overlaying custom text to provide context and increase engagement.</p>
+                    </div>
+
+                    <!-- Feature 3: Multiple Data Types -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                         <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">Multiple Data Types</h3>
+                        <p class="mt-2 text-gray-600">Create QR codes for URLs, Wi-Fi access, vCards (contact cards), pre-filled emails, and more.</p>
+                    </div>
+
+                    <!-- Feature 4: High-Resolution Export -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">High-Resolution Export</h3>
+                        <p class="mt-2 text-gray-600">Download your final QR code as a high-quality PNG file, perfect for both digital use and print media.</p>
+                    </div>
+
+                    <!-- Feature 5: Completely Free -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                         <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">100% Free, No Strings</h3>
+                        <p class="mt-2 text-gray-600">This is not a trial. All features are available for free, forever. No watermarks, no limits, no hidden costs.</p>
+                    </div>
+
+                     <!-- Feature 6: Privacy First -->
+                    <div class="feature-card bg-gray-50 p-8 rounded-xl border border-gray-200">
+                        <div class="bg-gray-200 text-gray-800 rounded-lg h-12 w-12 flex items-center justify-center">
+                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-gray-900">Privacy First</h3>
+                        <p class="mt-2 text-gray-600">Your QR code data is generated in your browser and is never sent to our servers. Your information remains private.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20">
+            <div class="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+                 <h2 class="text-3xl font-extrabold text-gray-900">Ready to Create?</h2>
+                 <p class="mt-4 text-lg text-gray-600">
+                    Get started now and see how easy it is to create a QR code that stands out.
+                </p>
+                <div class="mt-8">
+                    <a href="qura-code_pro.html" class="inline-block bg-black text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:bg-gray-800 transition-transform hover:scale-105">
+                        Start Designing Now
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex justify-between items-center flex-col sm:flex-row">
+                 <div class="flex items-center space-x-2">
+                     <svg class="h-6 w-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5A1.875 1.875 0 013.75 9.375v-4.5zM3.75 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 4.875c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5zM13.5 14.625c0-1.036.84-1.875 1.875-1.875h4.5c1.036 0 1.875.84 1.875 1.875v4.5c0 1.036-.84 1.875-1.875 1.875h-4.5a1.875 1.875 0 01-1.875-1.875v-4.5z" />
+                    </svg>
+                    <span class="text-lg font-semibold text-gray-700">QuraCode Pro</span>
+                </div>
+                <p class="text-gray-500 mt-4 sm:mt-0">&copy; 2025 QuraCode Pro. All rights reserved.</p>
+            </div>
         </div>
     </footer>
+
 </body>
 </html>
+
