@@ -3,123 +3,956 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuraCode Generator</title>
-    <link rel="stylesheet" href="qr.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
+    <title>QuraCode Pro - Professional QR Code Generator</title>
     
+    <!-- External library for QR code generation and styling -->
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-accent: #f1f3f4;
+            --border-light: #e5e7eb;
+            --border-medium: #d1d5db;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --accent-primary: #000000;
+            --accent-hover: #374151;
+            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-heavy: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
         
+        @media (min-width: 768px) {
+            .container {
+                padding: 2rem;
+            }
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        /* Desktop layout */
+        @media (min-width: 992px) {
+            .main-layout {
+                grid-template-columns: 400px 1fr;
+            }
+        }
+
+        .controls-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-accent);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+            background: var(--bg-primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-select {
+             appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .toggle-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-medium);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+        
+        .watermark-format-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .watermark-format-group .toggle-btn {
+            flex: 0 0 auto;
+            width: 50px;
+        }
+
+        .color-input {
+            width: 100%;
+            height: 40px;
+            padding: 2px;
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .slider {
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .btn-back {
+            background: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        .btn-back:hover {
+            background: var(--bg-accent);
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-accent);
+            border-color: var(--border-dark);
+        }
+        
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-danger:hover {
+            background: #fca5a5;
+            color: #7f1d1d;
+        }
+
+        .generate-container {
+            padding: 0 1.5rem 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .btn-generate {
+            width: 100%;
+            font-size: 1rem;
+            padding: 0.875rem;
+        }
+
+        .file-upload {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: static; /* Mobile first */
+        }
+        
+        @media (min-width: 992px) {
+            .preview-panel {
+                position: sticky;
+                top: 2rem;
+            }
+        }
+
+        .qr-container {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-heavy);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #qr-canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .preview-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        @media (min-width: 480px) {
+            .preview-actions {
+                flex-direction: row;
+            }
+        }
+
+        .preview-actions .btn {
+            flex: 1;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-heavy);
+            transition: bottom 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 480px) {
+             .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <a href="index.html" class="home-button">Back to Home</a>
     <div class="container">
-        <h1>Advanced QR Code Generator</h1>
-        
-        <div class="grid">
-            <div class="controls">
+        <a href="#" class="btn btn-back">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+            Back to Home
+        </a>
+        <div class="main-layout">
+            <div class="controls-panel">
                 <div class="tabs">
-                    <div class="tab active" onclick="switchTab('basic')">Basic</div>
-                    <div class="tab" onclick="switchTab('advanced')">Advanced</div>
+                    <button class="tab active" data-tab="content">Content</button>
+                    <button class="tab" data-tab="style">Style</button>
+                    <button class="tab" data-tab="watermark">Watermark</button>
                 </div>
 
-                <div id="basicControls">
-                    <div class="input-group">
-                        <label>Text or URL</label>
-                        <input type="text" id="qr-text" placeholder="Enter text or URL">
-                    </div>
-
-                    <div class="input-group">
-                        <label>QR Code Size</label>
-                        <select id="qr-size">
-                            <option value="128">Small (128x128)</option>
-                            <option value="256" selected>Medium (256x256)</option>
-                            <option value="512">Large (512x512)</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Error Correction</label>
-                        <select id="qr-correction">
-                            <option value="L">Low (7%)</option>
-                            <option value="M">Medium (15%)</option>
-                            <option value="Q">Quartile (25%)</option>
-                            <option value="H" selected>High (30%)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="advancedControls" style="display: none;">
-                    <div class="input-group">
-                        <label>Foreground Color</label>
-                        <input type="color" id="qr-color-dark" value="#000000">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Background Color</label>
-                        <input type="color" id="qr-color-light" value="#ffffff">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Watermark Text</label>
-                        <input type="text" id="watermark" placeholder="Add watermark text">
-                    </div>
-
-                    <div class="watermark-options">
-                        <div class="input-group">
-                            <label>Watermark Color</label>
-                            <input type="color" id="watermark-color" value="#000000">
+                <!-- Content Tab -->
+                <div class="tab-content active" id="content-tab">
+                    <div class="section">
+                        <div class="form-group">
+                             <label class="form-label">Content Type</label>
+                            <div class="toggle-group" id="content-type-group">
+                                <button class="toggle-btn active" data-type="text">Text/URL</button>
+                                <button class="toggle-btn" data-type="wifi">Wi-Fi</button>
+                                <button class="toggle-btn" data-type="vcard">vCard</button>
+                                <button class="toggle-btn" data-type="email">Email</button>
+                            </div>
                         </div>
+                        
+                        <div id="form-container">
+                            <!-- Text/URL Form -->
+                            <div id="form-text">
+                                <div class="form-group">
+                                    <label class="form-label" for="text-input">Text or URL</label>
+                                    <textarea class="form-textarea" id="text-input" placeholder="Enter your text or URL...">https://www.google.com</textarea>
+                                </div>
+                            </div>
+                            <!-- Wi-Fi Form -->
+                            <div id="form-wifi" class="hidden">
+                                <div class="form-group"><label class="form-label" for="wifi-ssid">Network Name (SSID)</label><input class="form-input" type="text" id="wifi-ssid" placeholder="MyWiFiNetwork"></div>
+                                <div class="form-group"><label class="form-label" for="wifi-password">Password</label><input class="form-input" type="text" id="wifi-password" placeholder="password123"></div>
+                                <div class="form-group"><label class="form-label" for="wifi-security">Security Type</label><select class="form-select" id="wifi-security"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">No Password</option></select></div>
+                            </div>
+                            <!-- vCard Form -->
+                            <div id="form-vcard" class="hidden">
+                               <div class="form-group"><label class="form-label" for="vcard-name">Full Name</label><input class="form-input" type="text" id="vcard-name" placeholder="John Doe"></div>
+                               <div class="form-group"><label class="form-label" for="vcard-org">Organization</label><input class="form-input" type="text" id="vcard-org" placeholder="Company Inc."></div>
+                               <div class="form-grid">
+                                   <div class="form-group"><label class="form-label" for="vcard-phone">Phone</label><input class="form-input" type="tel" id="vcard-phone" placeholder="+1234567890"></div>
+                                   <div class="form-group"><label class="form-label" for="vcard-email">Email</label><input class="form-input" type="email" id="vcard-email" placeholder="john@example.com"></div>
+                               </div>
+                            </div>
+                            <!-- Email Form -->
+                            <div id="form-email" class="hidden">
+                                <div class="form-group"><label class="form-label" for="email-to">To</label><input class="form-input" type="email" id="email-to" placeholder="recipient@example.com"></div>
+                                <div class="form-group"><label class="form-label" for="email-subject">Subject</label><input class="form-input" type="text" id="email-subject" placeholder="Email subject"></div>
+                                <div class="form-group"><label class="form-label" for="email-body">Message</label><textarea class="form-textarea" id="email-body" placeholder="Email message..."></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="generate-container">
+                        <button class="btn btn-primary btn-generate" id="generate-btn">
+                            Generate QR Code
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="input-group">
-                            <label>Watermark Size</label>
-                            <select id="watermark-size">
-                                <option value="small">Small</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="large">Large</option>
+                <!-- Style Tab -->
+                <div class="tab-content" id="style-tab">
+                    <div class="section">
+                        <h3 class="section-title">Colors</h3>
+                        <div class="form-group">
+                            <label class="form-label">Color Mode</label>
+                            <div class="toggle-group" id="color-mode-group">
+                                <button class="toggle-btn active" data-mode="solid">Solid</button>
+                                <button class="toggle-btn" data-mode="gradient">Gradient</button>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="color-foreground">Foreground</label>
+                                <input class="color-input" type="color" id="color-foreground" value="#000000">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="color-background">Background</label>
+                                <input class="color-input" type="color" id="color-background" value="#ffffff">
+                            </div>
+                        </div>
+                        <div id="gradient-options" class="hidden">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="color-gradient">Gradient End</label>
+                                    <input class="color-input" type="color" id="color-gradient" value="#666666">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="gradient-type">Gradient Type</label>
+                                    <select class="form-select" id="gradient-type">
+                                        <option value="linear">Linear</option>
+                                        <option value="radial">Radial</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">Shape & Style</h3>
+                        <div class="form-group">
+                            <label class="form-label" for="qr-shape-radius">QR Code Shape</label>
+                            <input class="slider" type="range" id="qr-shape-radius" min="0" max="0.5" step="0.05" value="0">
+                            <div class="slider-value" id="qr-shape-radius-value">Square</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Dot Style</label>
+                             <select class="form-select" id="dot-style-select">
+                                <option value="square" selected>Square</option>
+                                <option value="dots">Dots</option>
+                                <option value="rounded">Rounded</option>
+                                <option value="classy">Classy</option>
+                                <option value="classy-rounded">Classy Rounded</option>
+                                <option value="extra-rounded">Extra Rounded</option>
+                            </select>
+                        </div>
+                         <div class="form-group">
+                            <label class="form-label">Corner Square Style</label>
+                             <select class="form-select" id="corner-square-style-select">
+                                <option value="square" selected>Square</option>
+                                <option value="dot">Dot</option>
+                                <option value="extra-rounded">Extra Rounded</option>
                             </select>
                         </div>
                     </div>
+                    
+                    <div class="section">
+                         <h3 class="section-title">Error Correction</h3>
+                         <div class="form-group">
+                            <label class="form-label">Correction Level</label>
+                             <select class="form-select" id="error-correction-select">
+                                <option value="L">Low (7%)</option>
+                                <option value="M" selected>Medium (15%)</option>
+                                <option value="Q">Quartile (25%)</option>
+                                <option value="H">High (30%)</option>
+                            </select>
+                            <small class="form-text text-muted">Higher levels are more robust but hold less data.</small>
+                        </div>
+                    </div>
                 </div>
 
-                <button onclick="generateQR()" class="generate-btn">Generate QR Code</button>
+                <!-- Watermark Tab -->
+                <div class="tab-content" id="watermark-tab">
+                    <div class="section">
+                        <h3 class="section-title">Text Watermark</h3>
+                        <div class="form-group">
+                            <label class="form-label" for="text-watermark-input">Watermark Text</label>
+                            <input class="form-input" type="text" id="text-watermark-input" placeholder="Your watermark text">
+                             <div class="watermark-format-group" id="text-watermark-format">
+                                <button class="toggle-btn" data-format="bold">B</button>
+                                <button class="toggle-btn" data-format="italic">I</button>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="text-watermark-color">Text Color</label>
+                                <input class="color-input" type="color" id="text-watermark-color" value="#000000">
+                            </div>
+                             <div class="form-group">
+                                <label class="form-label" for="text-watermark-size">Text Size</label>
+                                <input class="slider" type="range" id="text-watermark-size" min="8" max="48" step="1" value="20">
+                                <div class="slider-value" id="text-watermark-size-value">20px</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h3 class="section-title">Logo Watermark</h3>
+                        <div class="form-group">
+                             <label class="file-upload btn btn-secondary">
+                                <span>Upload Logo</span>
+                                <input type="file" id="logo-input" accept="image/png, image/jpeg, image/svg+xml">
+                            </label>
+                        </div>
+                        <div id="logo-controls" class="hidden">
+                             <div class="form-group">
+                                <label class="form-label" for="logo-size">Logo Size</label>
+                                <input class="slider" type="range" id="logo-size" min="0.1" max="0.5" step="0.05" value="0.3">
+                                <div class="slider-value" id="logo-size-value">30%</div>
+                            </div>
+                            <button class="btn btn-danger" id="remove-logo">Remove Logo</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="preview-container">
-                <div id="qrcode"></div>
-                <div class="button-group">
-                    <button onclick="downloadQR()" class="download-btn">Download</button>
-                    <button onclick="copyQR()" class="copy-btn">Copy</button>
+            <div class="preview-panel">
+                <div class="qr-container">
+                    <div id="qr-canvas"></div>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn btn-primary" id="download-btn" disabled>Download PNG</button>
+                    <button class="btn btn-secondary" id="copy-btn" disabled>Copy Image</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-content">    
-            <div class="footer-section">
-                <h3>Contact Me</h3>
-                <p>Email: kryptogrammer101@gmail.com</p>
-                
-            </div>
-            
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <p>Follow me on social media.</p>
-                <div class="social-links">
-                    <a href="https://github.com/ANIMANxd" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://instagram.com/_aniruddha_bhide" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Developed by @ANIMANxd</p>
-        </div>
-    </footer>
-    
-
     <div class="toast" id="toast"></div>
-    <script src="qr.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            class QRCodeGenerator {
+                constructor() {
+                    this.qrCode = null;
+                    this.debounceTimer = null;
+                    this.resizeDebounceTimer = null;
+                    this.elements = {};
+                    this.state = this.getDefaultState();
+                    this.init();
+                }
+
+                getDefaultState() {
+                    return {
+                        contentType: 'text',
+                        content: {
+                            text: 'https://www.google.com',
+                            wifi: { ssid: '', password: '', security: 'WPA' },
+                            vcard: { name: '', org: '', phone: '', email: '' },
+                            email: { to: '', subject: '', body: '' }
+                        },
+                        style: {
+                            colorMode: 'solid',
+                            colors: { foreground: '#000000', background: '#ffffff', gradient: '#666666' },
+                            gradientType: 'linear',
+                            dotStyle: 'square',
+                            cornerSquareStyle: 'square',
+                            errorCorrectionLevel: 'M',
+                            qrShapeRadius: 0
+                        },
+                        watermark: {
+                            text: { text: '', size: 20, color: '#000000', bold: false, italic: false },
+                            logo: { image: null, size: 0.3 }
+                        }
+                    };
+                }
+
+                init() {
+                    this.cacheElements();
+                    this.bindEvents();
+                    this.initQRCode();
+                    this.updateUIFromState();
+                    this.updateQRCode();
+                    this.handleResize(); 
+                }
+
+                cacheElements() {
+                    const ids = [
+                        'content-type-group', 'text-input', 'wifi-ssid', 'wifi-password', 'wifi-security',
+                        'vcard-name', 'vcard-org', 'vcard-phone', 'vcard-email', 'email-to', 'email-subject', 'email-body',
+                        'color-mode-group', 'color-foreground', 'color-background', 'color-gradient',
+                        'gradient-type', 'gradient-options', 'dot-style-select', 'corner-square-style-select',
+                        'error-correction-select', 'logo-input', 'logo-controls', 'logo-size', 'logo-size-value',
+                        'remove-logo', 'qr-canvas', 'download-btn', 'copy-btn', 'toast', 'generate-btn',
+                        'text-watermark-input', 'text-watermark-color', 'text-watermark-size', 'text-watermark-size-value',
+                        'text-watermark-format', 'qr-shape-radius', 'qr-shape-radius-value'
+                    ];
+                    ids.forEach(id => {
+                        const key = id.replace(/-(\w)/g, (_, letter) => letter.toUpperCase());
+                        this.elements[key] = document.getElementById(id);
+                    });
+                    this.elements.tabs = document.querySelectorAll('.tab');
+                    this.elements.tabContents = document.querySelectorAll('.tab-content');
+                }
+
+                bindEvents() {
+                    this.elements.tabs.forEach(tab => tab.addEventListener('click', e => this.switchTab(e.target.dataset.tab)));
+
+                    const contentInputs = [
+                        this.elements.textInput, this.elements.wifiSsid, this.elements.wifiPassword, this.elements.wifiSecurity,
+                        this.elements.vcardName, this.elements.vcardOrg, this.elements.vcardPhone, this.elements.vcardEmail,
+                        this.elements.emailTo, this.elements.emailSubject, this.elements.emailBody
+                    ];
+                    contentInputs.forEach(input => input.addEventListener('input', () => this.onContentChange()));
+                    this.elements.contentTypeGroup.addEventListener('click', e => {
+                        if (e.target.classList.contains('toggle-btn')) this.onContentChange(e);
+                    });
+
+                    const styleInputs = [
+                        this.elements.colorForeground, this.elements.colorBackground, this.elements.colorGradient,
+                        this.elements.gradientType, this.elements.dotStyleSelect, this.elements.cornerSquareStyleSelect,
+                        this.elements.errorCorrectionSelect, this.elements.logoSize, this.elements.textWatermarkInput,
+                        this.elements.textWatermarkColor, this.elements.textWatermarkSize, this.elements.qrShapeRadius
+                    ];
+                    styleInputs.forEach(input => input.addEventListener('input', () => this.onStyleChange()));
+                    
+                    const styleClickGroups = [this.elements.colorModeGroup, this.elements.textWatermarkFormat];
+                    styleClickGroups.forEach(group => group.addEventListener('click', e => {
+                        if (e.target.classList.contains('toggle-btn')) this.onStyleChange(e);
+                    }));
+                    
+                    this.elements.logoInput.addEventListener('change', e => this.handleLogoUpload(e));
+                    this.elements.removeLogo.addEventListener('click', () => this.removeLogo());
+                    this.elements.generateBtn.addEventListener('click', () => this.updateQRCode());
+                    this.elements.downloadBtn.addEventListener('click', () => this.downloadQR());
+                    this.elements.copyBtn.addEventListener('click', () => this.copyQR());
+                    window.addEventListener('resize', () => this.handleResize());
+                }
+
+                onContentChange(e) {
+                    if (e && e.target.classList.contains('toggle-btn')) {
+                        this.setActiveToggle(e.target.parentNode, e.target);
+                        this.state.contentType = e.target.dataset.type;
+                        this.showContentForm(this.state.contentType);
+                    }
+                    this.elements.downloadBtn.disabled = true;
+                    this.elements.copyBtn.disabled = true;
+                    this.elements.generateBtn.textContent = 'Generate Update';
+                }
+
+                onStyleChange(e) {
+                    if (e && e.target.classList.contains('toggle-btn')) {
+                         // For non-exclusive toggles like bold/italic
+                        if (e.target.parentNode.id === 'text-watermark-format') {
+                             e.target.classList.toggle('active');
+                        } else { // For exclusive toggles
+                            this.setActiveToggle(e.target.parentNode, e.target);
+                        }
+                    }
+                    this.updateStateFromUI();
+                    this.updateUIFromState();
+                    
+                    if (this.elements.textWatermarkInput.value) {
+                       this.removeLogo(true); // silent remove
+                    }
+
+                    clearTimeout(this.debounceTimer);
+                    this.debounceTimer = setTimeout(() => this.updateQRCode(), 250);
+                }
+                
+                switchTab(tabName) {
+                    this.elements.tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.tab === tabName));
+                    this.elements.tabContents.forEach(content => content.classList.toggle('active', content.id === tabName + '-tab'));
+                }
+
+                setActiveToggle(group, activeBtn) {
+                    group.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+                    activeBtn.classList.add('active');
+                }
+
+                showContentForm(type) {
+                    ['text', 'wifi', 'vcard', 'email'].forEach(formType => {
+                        const form = document.getElementById(`form-${formType}`);
+                        if (form) form.classList.toggle('hidden', formType !== type);
+                    });
+                }
+
+                initQRCode() {
+                    let size = this.elements.qrCanvas.clientWidth;
+                    if (size === 0) {
+                        size = 300; // Fallback for initial render
+                    }
+                    this.qrCode = new QRCodeStyling({ width: size, height: size, type: 'svg', margin: 10 });
+                    this.qrCode.append(this.elements.qrCanvas);
+                }
+
+                updateStateFromUI() {
+                    this.state.content = {
+                        text: this.elements.textInput.value,
+                        wifi: { ssid: this.elements.wifiSsid.value, password: this.elements.wifiPassword.value, security: this.elements.wifiSecurity.value },
+                        vcard: { name: this.elements.vcardName.value, org: this.elements.vcardOrg.value, phone: this.elements.vcardPhone.value, email: this.elements.vcardEmail.value },
+                        email: { to: this.elements.emailTo.value, subject: this.elements.emailSubject.value, body: this.elements.emailBody.value },
+                    };
+
+                    const activeColorModeBtn = this.elements.colorModeGroup.querySelector('.toggle-btn.active');
+                    this.state.style.colorMode = activeColorModeBtn ? activeColorModeBtn.dataset.mode : 'solid';
+                    
+                    this.state.style.colors = {
+                        foreground: this.elements.colorForeground.value,
+                        background: this.elements.colorBackground.value,
+                        gradient: this.elements.colorGradient.value,
+                    };
+                    this.state.style.gradientType = this.elements.gradientType.value;
+                    this.state.style.dotStyle = this.elements.dotStyleSelect.value;
+                    this.state.style.cornerSquareStyle = this.elements.cornerSquareStyleSelect.value;
+                    this.state.style.errorCorrectionLevel = this.elements.errorCorrectionSelect.value;
+                    this.state.style.qrShapeRadius = parseFloat(this.elements.qrShapeRadius.value);
+
+                    this.state.watermark.logo.size = parseFloat(this.elements.logoSize.value);
+                    this.state.watermark.text = {
+                        text: this.elements.textWatermarkInput.value,
+                        size: parseInt(this.elements.textWatermarkSize.value),
+                        color: this.elements.textWatermarkColor.value,
+                        bold: this.elements.textWatermarkFormat.querySelector('[data-format="bold"]').classList.contains('active'),
+                        italic: this.elements.textWatermarkFormat.querySelector('[data-format="italic"]').classList.contains('active')
+                    };
+                }
+                
+                updateUIFromState() {
+                    this.elements.gradientOptions.classList.toggle('hidden', this.state.style.colorMode !== 'gradient');
+                    this.elements.logoSizeValue.textContent = `${Math.round(this.state.watermark.logo.size * 100)}%`;
+                    this.elements.textWatermarkSizeValue.textContent = `${this.state.watermark.text.size}px`;
+                    this.elements.logoControls.classList.toggle('hidden', !this.state.watermark.logo.image);
+                    const shapeValue = this.state.style.qrShapeRadius;
+                    this.elements.qrShapeRadiusValue.textContent = shapeValue === 0.5 ? 'Circular' : (shapeValue > 0 ? 'Rounded' : 'Square');
+                }
+
+                updateQRCode() {
+                    if (!this.qrCode) return;
+                    this.updateStateFromUI(); 
+                    const data = this.generateDataString();
+                    const options = this.generateOptionsObject();
+                    this.qrCode.update({ data, ...options });
+                    this.elements.downloadBtn.disabled = false;
+                    this.elements.copyBtn.disabled = false;
+                    this.elements.generateBtn.textContent = 'Generate QR Code';
+                }
+
+                generateDataString() {
+                    const { contentType, content } = this.state;
+                    switch (contentType) {
+                        case 'wifi': return `WIFI:T:${content.wifi.security};S:${this.escapeWifi(content.wifi.ssid)};P:${this.escapeWifi(content.wifi.password)};;`;
+                        case 'vcard': return `BEGIN:VCARD\nVERSION:3.0\nN:${content.vcard.name}\nORG:${content.vcard.org}\nTEL:${content.vcard.phone}\nEMAIL:${content.vcard.email}\nEND:VCARD`;
+                        case 'email': return `mailto:${content.email.to}?subject=${encodeURIComponent(content.email.subject)}&body=${encodeURIComponent(content.email.body)}`;
+                        case 'text': default: return content.text || 'https://www.google.com';
+                    }
+                }
+
+                escapeWifi(str) { return str.replace(/([\\;,":])/g, '\\$1'); }
+
+                createTextWatermarkAsImage() {
+                    const { text, size, color, bold, italic } = this.state.watermark.text;
+                    if (!text) return null;
+                    
+                    const scale = 2; // Render at 2x resolution to avoid blur
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const fontStyle = italic ? 'italic ' : '';
+                    const fontWeight = bold ? 'bold ' : '';
+                    const font = `${fontStyle}${fontWeight}${size * scale}px sans-serif`;
+                    
+                    ctx.font = font;
+                    const metrics = ctx.measureText(text);
+                    canvas.width = metrics.width + (20 * scale);
+                    canvas.height = size * 1.5 * scale;
+                    
+                    ctx.font = font; // Re-apply font after canvas resize
+                    ctx.fillStyle = color;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+                    
+                    return canvas.toDataURL();
+                }
+
+                generateOptionsObject() {
+                    const { style, watermark } = this.state;
+                    const options = {
+                        dotsOptions: { type: style.dotStyle, color: style.colors.foreground },
+                        backgroundOptions: { color: style.colors.background, round: style.qrShapeRadius },
+                        cornersSquareOptions: { type: style.cornerSquareStyle, color: style.colors.foreground },
+                        cornersDotOptions: { color: style.colors.foreground },
+                        qrOptions: { errorCorrectionLevel: style.errorCorrectionLevel },
+                        imageOptions: { crossOrigin: 'anonymous', margin: 5 }
+                    };
+
+                    if (style.colorMode === 'gradient') {
+                        const gradient = {
+                            type: style.gradientType,
+                            colorStops: [{ offset: 0, color: style.colors.foreground }, { offset: 1, color: style.colors.gradient }]
+                        };
+                        options.dotsOptions.gradient = gradient;
+                        options.cornersSquareOptions.gradient = gradient;
+                        options.cornersDotOptions.gradient = gradient;
+                    }
+
+                    const textImage = this.createTextWatermarkAsImage();
+                    if (watermark.logo.image) {
+                        options.image = watermark.logo.image;
+                        options.imageOptions.imageSize = watermark.logo.size;
+                    } else if (textImage) {
+                        options.image = textImage;
+                        options.imageOptions.imageSize = 0.5; 
+                    }
+
+                    return options;
+                }
+                
+                handleLogoUpload(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.state.watermark.logo.image = e.target.result;
+                        this.elements.textWatermarkInput.value = ''; // Clear text watermark
+                        this.onStyleChange();
+                    };
+                    reader.readAsDataURL(file);
+                }
+ 
+                removeLogo(silent = false) {
+                     this.state.watermark.logo.image = null;
+                     this.elements.logoInput.value = '';
+                     if (!silent) this.onStyleChange();
+                     else this.updateUIFromState();
+                }
+ 
+                async downloadQR() {
+                    if (this.elements.downloadBtn.disabled) return;
+                    try {
+                        await this.qrCode.download({ name: 'quracode-pro', extension: 'png' });
+                        this.showToast('Downloaded as PNG');
+                    } catch (error) { this.showToast('Download failed!'); }
+                }
+
+                async copyQR() {
+                    if (this.elements.copyBtn.disabled) return;
+                    try {
+                        const blob = await this.qrCode.getRawData('png');
+                        await navigator.clipboard.write([ new ClipboardItem({ 'image/png': blob }) ]);
+                        this.showToast('Copied to clipboard!');
+                    } catch (error) { this.showToast('Copy failed. Your browser may not support this feature.'); }
+                }
+                
+                showToast(message) {
+                    this.elements.toast.textContent = message;
+                    this.elements.toast.classList.add('show');
+                    setTimeout(() => this.elements.toast.classList.remove('show'), 3000);
+                }
+
+                handleResize() {
+                    clearTimeout(this.resizeDebounceTimer);
+                    this.resizeDebounceTimer = setTimeout(() => {
+                        if (!this.qrCode) return;
+                        const newSize = this.elements.qrCanvas.clientWidth;
+                        if (newSize > 0) {
+                            this.qrCode.update({ width: newSize, height: newSize });
+                        }
+                    }, 250);
+                }
+            }
+            
+            new QRCodeGenerator();
+        });
+    </script>
 </body>
 </html>
+
